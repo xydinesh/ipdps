@@ -1,0 +1,1291 @@
+@comment To stop printing the summaries/comments, change the "note" field to "comment".
+
+@misc{jaguar, 
+key = "jaguar",
+howpublished={\url{http://www.olcf.ornl.gov/computing-resources/jaguar/}}
+}
+
+@misc{inddgo,
+key = "inddgo",
+title= "Integrated Network Decompositions and Dynamic programming for Graph Optimization ({INDDGO})",
+howpublished={\url{http://www.github.org/bdsullivan/INDDGO}}
+}
+
+@inproceedings{Leeuwen1990, 
+author="J.~van Leeuwen", 
+title="Graph Algorithms",
+booktitle="Handbook of Theoretical Computer Science, A: Algorithms and Complexity Theory", 
+publisher="North Holland", 
+year="1990"
+}
+
+@article{Gao2008,
+author ="Yong Gao",
+title = "The Degree Distribution of Random k-Trees",
+year = "2008",
+comment = {\\\\PREPRINT. Proves that the degree distribution of a graph evolution model based on k-trees follows a power law. Also provides some results on random partial k-trees.}
+}
+
+@article{Shcherbina2007,
+author ="O. A. {Shcherbina}",
+title = "Tree Decomposition and Discrete Optimization Problems: A Survey",
+journal = "Cybernetics and Systems Analysis",
+volume = "43 (4)",
+pages = "",
+year = "2007",
+comment = {\\\\Extensive bibliography. Questionable English.},
+}
+
+@article{Bodlaender1990,
+  author    = {Hans L. Bodlaender},
+  title     = {Polynomial Algorithms for Graph Isomorphism and Chromatic
+               Index on Partial k-Trees},
+  journal   = {J. Algorithms},
+  volume    = {11},
+  number    = {4},
+  year      = {1990},
+  pages     = {631-643},
+  comment = {\\\\ },
+}
+
+
+@inproceedings{Reed1992,
+  author = "Bruce Reed",
+  title = "Finding Approximate Separators and Computing Tree Width Quickly",
+  booktitle = "Proceedings of the 24th Annual {ACM} Symposium on
+   the Theory of Computing",
+  publisher =    "ACM Press",
+  address =      "New York",
+  year = "1992",
+  pages = "221--228",
+  comment={\\\\Given $k$, he proposes an $n \log n$ algorithm for determining if $G$ has tree decomposition
+  of width at most $k$. If yes, then the decomposition is returned. Referenced by Cook-Seymour
+  TSP paper as something that should be looked at.  They imply that there is a branch decomposition
+  variant of this algorithm that should be investigated.}
+}
+
+@article{CookSeymour2003,
+  author = "William Cook and Paul Seymour",
+  title = "Tour Merging via Branch-Decomposition",
+  journal = {INFORMS Journal on Computing},
+  volume = "15",
+  issue = "3",
+  pages = "233--248",
+  year = "2003",
+  comment={\\\\Describes the use of branch decomposition to improve TSP tours produced by heuristics.  Takes union
+  of edges in 10-40 TSP tours and uses branch decomposition to find optimal tour using these edges.  Provides
+  constructive algorithm for branch decomposition that begins with a star and successively splits nodes
+  based on heuristic rules and provably safe methods to produce good decompositions.}
+  }
+
+@phdthesis{Ulusal2008,
+  author = "Elif Ulusal",
+  title = "Integer Programming Models for the Branchwidth Problem",
+  year = "2008",
+  school= {Texas A\&M University},
+  comment={\\\\Tries to generate branch decomposition of provably optimal width by using integer programming.
+  Computational results using CPLEX appear to be extremely disappointing.  Several formulations are examined,
+  but none appear to provide a computationally viable technique for more than a dozen nodes or so.}
+}
+
+@phdthesis{Hicks2000,
+  author = "Illya Hicks",
+  title = "Branch Decompositions and Their Applications",
+  school = {Rice University},
+  year = "2000",
+  comment={\\\\Computational and theoretical discussion of branch decompositions.  Focuses on heuristic methods
+  to compute low width branch decompositions.  Includes section on planar branch decompositions and includes
+  useful computational results.  Has a final section on parallel branch decompositions, but this appears to be
+  almost an afterthought and the results are mixed. Mentions some ideas for future work in solving the separator
+  problem which is vital to ?all? branchwidth heuristics - clique separators and an algorithm of Kloks.}
+}
+
+@InCollection{HicksKosterKologouglu2005,
+  author       = "Illya Hicks and Arie Koster and Elif Koloto\u{g}lu",
+  editor       = "J. Cole Smith",
+  booktitle    = "TutORials 2005",
+  title        = "Branch and Tree Decomposition Techniques for Discrete Optimization",
+  chapter      = "1",
+  publisher    = "INFORMS Annual Meeting",
+  pages        = "1--29",
+  year         = "2005",
+  series       = "INFORMS TutORials in Operations Research Series",
+  URL          = "http://www.zib.de/koster/download/Tutorials2005-chapter01.pdf",
+  language     = "english",
+  comment={\\\\Excellent survey of the state of the art as of 2005, written as an introduction to the area.
+  Describes theoretical results and practical algorithms for branch and tree decompositions and discusses
+  special cases such as planar graphs where better results are possible.  Discusses applications of each
+  decomposition to optimization problems with more examples for tree than branch. Concludes with a set of
+  10 or so open problems.  Comments that upper and lower bounds for width are of interest to practitioners.}
+}
+
+
+@article{MillerTengThurstonVavasis1997,
+  author    = {Gary Miller and Shang-Hua Teng and William Thurston and Stephen Vavsis},
+  title     = {Separators for Sphere-Packings and Nearest Neighbor Graphs},
+  journal   = {Journal of the ACM},
+  volume    = {44},
+  number    = {1},
+  year      = {1997},
+  pages     = {1-29},
+  comment = {\\\\This paper proves the existence of sphere separators for k-ply systems of balls in dimension d satisfying bounds on the size of the intersection and
+cardinalities of the partition components. The relevant implication for graph decomposition is the implication that every k-nearest neighbor-graph on n points in d dimensions
+has a separator of order O($k^{1/d}n^{1-1/d}$). This generalizes the planar separator theorem of Lipton \& Tarjan to higher dimensions (this theorem is used in the proof of the
+graph minors theorem). Gives linear serial and O($\log n$) parallel algorithms for finding a small separator of graphs embedded in d dimensions satisfying the appropriate
+geometric condition.},
+}
+
+@inproceedings{cliquecover, 
+author = {Ethan Kim and Adrian Vetta and Mathieu Blanchette}, 
+title = {Clique Cover On Sparse Networks}, 
+booktitle = {SIAM: Algorithm Engineering \& Experiments (ALENEX)}, 
+year = {2012}
+}
+@article{huffner,
+author="Huffner, Falk 
+and Niedermeier, Rolf 
+and Wernicke, Sebastian ",
+title="Developing Fixed-Parameter Algorithms to Solve Combinatorially Explosive Biological Problems",
+series="Methods in Molecular Biology",
+year="2008",
+month="May",
+volume="453",
+keywords="Computationally hard problems",
+keywords="combinatorial explosions",
+keywords="discrete problems",
+keywords="fixed-parameter tractability",
+keywords="optimal solutions",
+url="http://www.springerprotocols.com/Abstract/doi/10.1007/978-1-60327-429-6_21"
+}
+
+
+@inproceedings{AmirMcIlraith2000,
+  author    = {Eyal Amir and Sheila McIlraith},
+  title     = {Partition-based Logical Reasoning},
+  booktitle   = {Proceedings of the International Conference on Principles of Knowledge Representation and Reasoning},
+  year      = {2000},
+  pages     = {},
+  comment = {\\\\This paper primarily focuses on the use of partitions for analyzing a set of propositional or FOL classes (a theory). Exploits structure for theorem
+proving and SAT search. Section 4 describes a greedy algorithm for tree decomposition of the symbol graphs using minimum vertex separators. Referenced in Amir2008.},
+}
+
+@article{Amir2008,
+  author    = {Eyal Amir},
+  title     = {Approximation Algorithms for Treewidth},
+  journal   = {Algorithmica},
+  volume    = {},
+  number    = {},
+  year      = {2008},
+  pages     = {in press},
+  comment = {\\\\Presents 4 algorithms for treewidth. The first is factor-O($\log$ OPT) from the optimal,
+where OPT is the treewidth of the given graph and runs in time O($n^4 k \log k$) with
+$n$ the number of nodes and $k$ = OPT, the treewidth. The other three offer factor-4, factor-4.5 and factor-3.67
+approximations with running times O($2^{4.38k}n^2k$), O($2^{3k} n^2 k^{3/2}$) and O($2^k poly(n)$), respectively.
+Code is available at reason.cs.uiuc.edu/eyal/decomp.}
+}
+
+@inproceedings{FeigeHajiaghayiLee2005,
+  author    = {Uriel Feige and MohammedTaghi Hajiaghayi and James Lee},
+  title     = {Improved Approximation Algorithms for Minimum-Weight Vertex Separators},
+  booktitle   = {Proceedings of 37th STOC},
+  year      = {2005},
+  pages     = {563--572},
+  comment = {\\\\There are numerous theoretical results in this paper regarding min-ratio vertex cuts \&  max-flow/min-cut theorems. These imply an
+O($\sqrt{\log n}$) pseudo-approximation for balanced vertex separators in general graphs with an approximation ratio of O($\log$ OPT). Applied to
+treewidth, we get that for a graph with treewidth $k$, an algorithm that finds a tree decomposition of width at most O($k\sqrt{\log k}$). For graphs with
+a fixed excluded minor (includes all bounded genus graphs), this gives a constant factor approximation to the treewidth. These are direct improvements to the
+algorithms of Amir2008.},
+}
+
+@inproceedings{BerryHeggernesSimonet2003,
+  author = {Anne Berry and Pinar Heggernes and Genevi\'eve Simonet},
+  title = "The Minimum Degree Heuristic and the Minimal Triangulation Process",
+  booktitle = "Graph-Theoretic Concepts in Computer Science",
+  series = "LNCS",
+  volume = "2880",
+  pages = "58-70",
+  year = "2003",
+  comment={\\\\This paper analyzes the minimum degree heuristic for
+finding triangulations of graphs (which lead to tree decompositions). They show theoretical results about the behaviour of the
+general Elimination Game algorithm, the Minimum Degree variant, and their own new improvement
+Minimal Minimum Degree. Imply that an efficient implementation of MMD should be possible.
+Well written and makes very clear how the EG-based heuristics work to give a triangulation (min degree, min discrepancy, etc).}
+}
+}
+
+
+@mastersthesis{Fouhy2003,
+  author = {John Fouhy},
+  title = {Computational Experiments on Graph Width Metrics},
+  year = "2003",
+  school = "Victoria University of Wellington",
+  comment={\\\\ }
+  }
+
+@article{Hicks2005Cycle,
+  author = {Illya Hicks},
+  title = "Planar Branch Decompositions {II}: The Cycle Method",
+  journal = {INFORMS Journal on Computing},
+  volume = "17",
+  issue = "4",
+  pages = "413--421",
+  year = "2005",
+  comment={\\\\Describes an algorithm for computing optimal branch decomposition for planar graphs.  Claims
+  to be an improvement over an edge-contraction based method proposed by Seymour-Thomas and is called
+  the cycle method.  Tree is constructed a la Cook-Seymour and the same notions of extendibility are
+  discussed.  One of the key points here is that extendibility can be proven for planar graphs in much
+  wider context - the ratcatcher algorithm can be used to check whether or not a decomposition is extendible,
+  whereas in the general, non-planar case, once we make the first "non-safe" splitting of a partial
+  decomposition, we have no way of knowing the extendibility any more.  As in the ratcatcher paper,
+  the medial graph is used - running times are smaller, but for some reason he doesn't run the algorithm
+  on the same sets of graphs... }
+  }
+
+@article{Hicks2005Rat,
+  author = {Illya Hicks},
+  title = "Planar Branch Decompositions {I}: The Ratcatcher",
+  journal = {INFORMS Journal on Computing},
+  volume = "17",
+  issue = "4",
+  pages = "402--412",
+  year = "2005",
+  comment={\\\\Describes an algorithm for computing optimal branch decomposition for planar graphs.  Algorithm
+  requires one to construct the medial graph and then run the ratcatcher procedure.  Complexity of the first
+  algorithm is $O(e^2)$ (where $G$ has $e$ edges) but memory issues apparently prevent it from being tractable for more than a few
+  hundred edges.  He proposes two alternatives, comprat and memrat that have higher $O(e^3)$ complexity
+  but lower memory requirements.  The memrat was the only one to not run out of memory (1 GB available) on a 15K node graph (brd14051) which
+  had branchwidth 68 - runtime was about 1 week. }
+  }
+
+@article{BodlaenderKoster2008,
+  author = {Hans Bodlaender and Arie M.C.A. Koster},
+  title = {Treewidth computations I. Upper bounds},
+  journal = {Information and Computation},
+  year = "2009",
+  volume = {Article In Press},
+  comment = {\\\\This paper gives an overview of several upper bound heuristics
+  that have been proposed and tested for finding tree decompositions and
+  treewidth. They include clearly outlined algorithm pseudocode, and a
+  section on experimental comparison which uses special graphs where TW is
+  known - being able to generate these easily is key! Concludes that
+  elimination order-based heuristics (possibly with an additional minfill step)
+  give the most bang for ones buck in terms of computation time.}
+}
+
+@article{Gavril1974,
+  author = {Fanica Gavril},
+  title = {The Intersection Graphs of Subtrees in Trees Are Exactly the Chordal Graphs},
+  journal = {Journal of Combinatorial Theory, Series B},
+  year = "1974",
+  volume = "16",
+  issue = "1",
+  pages = "47--56",
+  comment = {\\\\Original article proving that triangulations (chordal graphs) are intersection graphs of subtrees of a tree. Gives an algorithm for forming the tree and subtrees (which directly gives a tree decomposition with bags equal to the vertex sets of the subtrees, though this is not mentioned here). Care in reading is advised as modern terminology is not always used ("clique" means "maximal clique" for example, and gamma is used for neighbor sets).}
+}
+
+@article{Hicks2005Tangle,
+  author = {Illya Hicks},
+  title = "Graphs, Branchwidth, and Tangles! {Oh} My!",
+  journal = {Networks},
+  volume = "45",
+  issue = "2",
+  pages = "55--60",
+  year = "2005",
+  comment={\\\\Presents an algorithm that will either improve a given branch decomposition or will
+  provide a ``certificate'' of its optimality in the form of a tangle basis.  In other words, given
+  a graph and a decomposition of width $k$, the algorithm either returns an improved decomposition
+  of width at most $k-1$ or it gives you a lower bound on the branchwidth of $k$ by returning
+  a tangle basis of order $k$.  Computational results on graphs containing up to about 1000 edges with
+  at most 750 nodes show very wildly varying runtimes - from 0.1 seconds up to 20 hours for graphs
+  with similar numbers of nodes and edges.  All results involve initial decompositions with width $\le$ 8.
+  Would be interesting to see if it could improve the decompositions of the TSP-Delaunay triangulated
+  graphs discussed in Cook-Seymour TSP paper, but I suspect that running time would be a killer.
+  Should look at algorithm in some detail to see if there are options for parallelization.
+  }
+}
+
+@article{BodlaenderWolleKoster2006,
+  author = {H. L. Bodlaender and A. M. C. A. Koster and T. Wolle},
+  title = {Contraction and Treewidth Lower Bounds},
+  journal = {Journal of Graph Algorithms and Applications},
+  year = {2006},
+  volume = {10},
+  number = {1},
+  pages = {5--49},
+  url = {http://jgaa.info/accepted/2006/BodlaenderWolleKoster2006.10.1.pdf},
+  comment={\\\\Referenced in BodlaenderKoster2008 for giving a lower bound on tree-width for the partial k-trees they generate to do empirical comparison - this is the MMD heuristic for the contraction degeneracy bound. Several other heuristics and bounding methods are discussed.}
+}
+
+@article{BodlaenderKoster2007,
+  author = {H. L. Bodlaender and A. M. C. A. Koster},
+  title = {Combinatorial Optimization on Graphs of Bounded Treewidth},
+  journal = {The Computer Journal},
+  year = {2008},
+  volume = {51},
+  number = {3},
+  pages = {245--269},
+  comment={\\\\Exposition on the usage of dynamic programming with tree decompositions, using WEIGHTED INDEPENDENT SET as an example. Readable and very helpful.}
+}
+
+@inproceedings{RoojiBodlaenderRossmanith2009,
+  author = {Johan M.M. van Rooji and Hans L. Bodlaender and Peter Rossmanith},
+  title = {Dynamic Programming on Tree Decompositions Using Generalized Fast Subset Convolution},
+booktitle={17th Annual European Symposium on Algorithms (ESA'09)},
+  year = {2009},
+series = {Lecture Comments in Computer Science},
+volume={5757},
+  pages = {566--577},
+  comment={\\\\A way to speed up the dynamic programming algorithms using techniques from convolution. Transforms the symbol tables maintained at each step.}
+}
+
+
+@inproceedings{ShoikhetGeiger1997,
+    author = {Shoikhet, K. and Geiger, D.},
+    booktitle = {Proceedings of the National Conference on Artificial Intelligence (AAAI 97)},
+    citeulike-article-id = {696600},
+    keywords = {tree-width},
+    pages = {185--190},
+    posted-at = {2006-06-15 02:09:50},
+    priority = {2},
+    title = {A practical algorithm for finding optimal triangulations},
+    year = {1997},
+    comment = {\\\\Referenced in BodlaenderKoster2008 for methodology for creating partial k-trees with known upper-bound on tree-width.}
+}
+
+@incollection{Musliu2008,
+  author    = {Nysret Musliu},
+  title     = {An Iterative Heuristic Algorithm for Tree Decomposition},
+  booktitle = {Recent Advances in Evolutionary Computation for Combinatorial
+               Optimization},
+  year      = {2008},
+  pages     = {133-150},
+  ee        = {http://dx.doi.org/10.1007/978-3-540-70807-0_9},
+  comment      = {\\\\Not a well-written paper. Claims to use an iterative local search algorithm with perturbations to give heuristic upper bound on treewidth by working with elimination orderings for triangulations.}
+}
+
+@article{LarranagaKuijpersPozaMurga1997,
+    author = {Pedro Larranaga and Cindy Kuijpers and Mikel Poza and Roberto H. Murga},
+    title = {Decomposing Bayesian Networks: Triangulation of Moral Graph with Genetic Algorithms},
+    journal = {Statistics and Computing},
+    year = {1997},
+    volume = {7},
+    comment = {\\\\Referenced in Musliu2008. Describes min-fill, min-degree type heuristics and gives a genetic algorithm heuristic. Describes and utilizes linkages to TSP. First impression is high time complexity.},
+}
+
+@article{KosterBodlaendervanHoesel2001,
+title = "Treewidth: Computational Experiments",
+journal = "Electronic Comments in Discrete Mathematics",
+volume = "8",
+number = "",
+pages = "54 - 57",
+year = "2001",
+comment = "\\\\1st Cologne-Twente Workshop on Graphs and Combinatorial Optimization",
+issn = "1571-0653",
+doi = "DOI: 10.1016/S1571-0653(05)80078-2",
+url = "http://www.sciencedirect.com/science/article/B75GV-4G3HJF1-J/2/3e16fd4d21a6dbdbf4de718f92ad4cb6",
+author = "Arie M. C.A. Koster and Hans L. Bodlaender and Stan P. M. van Hoesel",
+}
+
+@article{TarjanYannakakis1984,
+    author = {Robert E. Tarjan and Mihalis Yannakakis},
+    title = {Simple Linear-Time Algorithms to Test Chordality of Graphs, Test Acyclicity of Hypergraphs, and Selectively Reduce Acyclic Hypergraphs},
+    journal = {SIAM Journal on Computing},
+    year = {1984},
+    volume = {13},
+    pages = {566-579},
+    comment = {\\\\Maximum Cardinality Search (MCS)}
+}
+
+@phdthesis{Lucena2002,
+  author = {Brian Lucena},
+  title = {Dynamic Programming, Tree-width and Computation on Graphical Models},
+  year = {2002},
+  school= {Brown University},
+  comment={\\\\Alternative description of treewidth.  Main result is a lower bound on treewidth
+  derived from maximum cardinality search.  Minimal computational results obtained using MATLAB.}
+}
+
+@inproceedings{BerryBlairHeggernesPeyton2002,
+  author = {Anne Berry and Jean Blair and Pinar Heggernes and Barry Peyton},
+  title = {Maximum Cardinality Search for Computing Minimum Triangulations of Graphs},
+  year ={2002},
+  booktitle={ALGORITHMICA},
+  pages={1--12},
+  publisher={Springer-Verlag},
+  comment={\\\\Original presentation of the MCS-M algorithm with correct pseudocode.
+  Allows one to compute triangulation on the fly and returns a perfect elimination
+  ordering}
+  }
+
+@inproceedings{DornTelle2006,
+    author = {Frederic Dorn and Jan Arne Telle},
+    title = {Two birds with one stone: the best of branchwidth and treewidth with one algorithm},
+    booktitle = {in LATIN’06: 7th Latin American Theoretical Informatics Symposium},
+    year = {2006},
+    pages = {386--397},
+    publisher = {Springer-Verlag},
+    comment={\\\\Proposes semi-nice tree decompositions and discusses benefits of using tree or
+    branch decomposition depending on problem type.  References a longer paper that has more
+    details.}
+}
+
+@inproceedings{AspvallProskurowskiTelle1998,
+    author = {Bengt Aspvall and Andrzej Proskurowski and Jan Arne Telle},
+    title = {Memory Requirements for Table Computations in Partial k-Tree Algorithms},
+    booktitle = {Algorithm Theory - SWAT'98},
+    year = {1998},
+    pages = {222-233},
+    publisher = {Springer-Verlag},
+    comment={\\\\Addresses optimizing the choice of bottom-up tree traversal for the dynamic programming on a TD with two possible metrics - minimizing the max number of tables stored at any point in the process or minimizing the maximum sum of table sizes stored at any given time.}
+}
+
+@article{DornTelle2009,
+  author={Frederic Dorn and Jan Arne Telle},
+  title={Semi-nice tree-decompositions:  the best of branchwidth and treewidth with one algorithm},
+  journal = "Discrete Applied Mathematics",
+  volume = "157",
+  number = "12",
+  pages = "2737 - 2746",
+  year = "2009",
+  doi = "DOI: 10.1016/j.dam.2008.08.023",
+  url = "http://www.sciencedirect.com/science/article/B6TYW-4TGGCHV-2/2/888cda3e3c48583443ef2c5c2ceb2050",
+  comment={\\\\Long version of proceedings paper that appears to have a discussion of how to
+  convert existing decomposition into a semi-nice one.}
+  }
+
+@article{DornTelle2005,
+  author={Frederic Dorn and Jan Arne Telle},
+  title={Dynamic Progamming on tree-decompositions versus branch-decompositions},
+  year = "2005",
+  journal={Reports in Informatics},
+  number = "293",
+  publisher={University of Bergen},
+  comment={\\\\Technical report on semi-nice TDs}
+  }
+
+@article{FominGaspersSaurabhStepanov2006,
+  author={Fedor V. Fomin and Serge Gaspers and Saket Saurabh and Alexey A. Stepanov},
+  title={On Two Techniques of Combining Branching and Treewidth},
+  year = "2006",
+  journal={Reports in Informatics},
+  number = "337",
+  publisher={University of Bergen},
+  comment={\\\\Offers two approaches to combining branch \& reduce with tree-decomposition dynamic progamming based on sub-problem sizes and degrees. Interesting idea to reduce complexity. Must solve a MIP to help find parameters to balance the two approaches for any given problem.}
+  }
+
+
+% http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=04454426
+@article{HendricksonBerry2008,
+  author={Bruce Hendrickson and Jonathan Berry},
+  title={Graph Analysis with High-Performance Computing},
+  journal = {Computing in Science and Engineering},
+  year={2008},
+  pages={14--19},
+  volume={10},
+  issue={2},
+  comment={\\\\Recent expository article describing why current parallel architectures fail for many
+  graph algorithms: random memory access makes it take longer to get the memory you need, and once
+  you have it there isn't all that much to be done so that that cost is not amortized over many operations,
+  etc.}
+}
+
+%F. Clautiaux, J. Carlier, A. Moukrim, S. Négre, New lower and upper bounds for graph treewidth, in:
+% J.D.P. Rolim (Ed.), Proceedings International Workshop on Experimental and Efficient Algorithms, WEA 2003,
+% Lecture Comments in Computer Science, vol. 2647, Springer, Berlin, 2003, pp. 70-80.
+
+@inproceedings{ClautiauxCarlierMoukrimNegre2003,
+  author={Francois Clautiaux and Jacques Carlier and Aziz Moukrim and Stephane Negre},
+  title={New Lower and Upper Bounds for Graph Treewidth},
+  booktitle={Proceedings of the International Workshop on Experimental and Efficient Algorithms, WEA 2003},
+  editor={J.D.P. Rolim},
+  year={2003},
+  pages={70--80},
+  series = {LNCS},
+  volume = "2647",
+  publisher= {Springer-Verlag},
+  comment={\\\\Description of tabu-search algorithm to find good elimination orderings. Given ordering, algorithm
+  searches new orderings that can be obtained via a simple operation (swap, etc.).  Computation of cost function
+  involves sum of squares of resulting bag sizes in order to avoid solutions with many large bags. Computational
+  results indicate a powerful algorithm (in 2003, at least).}
+}
+
+@article{BozdagGebremedhinManneBomanCatalyurek2008,
+  title = {A framework for scalable greedy coloring on distributed-memory parallel computers},
+  author= {D. Bozdag and A. Gebremedhin and F. Manne and E. Boman and U. Catalyurek},
+  journal= {Journal of Parallel and Distributed Computing},
+  year={2008},
+  volume={68},
+  number={4},
+  pages={515--535},
+  comment={\\\\Alex Pothen mentioned this article.  Title says it all}
+  }
+
+% tech report?
+@article{BodlaenderKosterEijkhof2003,
+  title={Pre-Processing Rules for Triangulation of Probabilistic Networks},
+  author={Hans L. Bodlaender and Arie M. C. A. Koster and Frank van den Eijkhof},
+  pages={1--23},
+  year={2003},
+  journal={technical report UU-CS-2003-001},
+  publisher={Utrecht University},
+  comment={\\\\Discusses methods to pre-process a graph (edge contraction, etc.) so that
+  the triangulation can be sped up while not increasing the minimal maximum clique size
+  in the resulting graph.  Some similar ideas have been applied in later TD-focused papers}
+  }
+
+@article{BodlaenderFomin2002,
+  title={Tree Decompositions with small cost},
+  author={Hans L. Bodlaender and Fedor V. Fomin},
+  pages={1--22},
+  year={2002},
+  journal={technical report UU-CS-2002-001},
+  publisher={Utrecht University},
+  comment={\\\\Defines the f-cost of a tree decomposition to offer metrics other than just width for minimization. For fast functions f (those that grow at least as fast as $2^x$, they show there is a minimum f-cost TD which corresponds to a minimal triangulation. Interesting connection to probabilistic networks and inference problems. Most results are for smaller classes of graphs (TW = 2, cographs, poly. number of min separators). Proofs involve minimal separators and block structure.}
+}
+  }
+
+
+@article{FominMazoitTodinca2009,
+  title={Computing branchwidth via efficient triangulations and blocks},
+  author={F. Fomin and F. Mazoit and I. Todinca},
+  journal={Discrete Applied Mathematics},
+  volume={157},
+  issue={12},
+  year={2009},
+  comment={\\\\New article describing methods to obtain exact branchwidth of graph. Tries to
+  use machinery of TW computations (triangulations, etc.) to develop similar tools
+  for branchwidth.}
+  }
+
+@article{Barthelemy2004,
+  title={Betweenness Centrality in Large Complex Networks},
+  author={Marc Barth\'elemy},
+  journal={arXiv:cond-mat/0309436v2},
+  year={2004},
+  comment={\\\\Discusses BC as a power-law property in complex networks and discusses properties of the exponent of decay. Good overview of centrality work thus far.}
+  }
+
+@article{BaderKintaliMadduriMihail2007,
+  title={Approximating Betweenness Centrality},
+  author={David A. Bader and Shiva Kintali and Kamesh Madduri and Milena Mihail},
+  journal={WAW 2007, LNCS 4863},
+  year={2007},
+  comment={\\\\Discusses a scheme to approximate betweenness centrality using adaptive sampling to run less shortest path calculations.}
+  }
+
+@article{BaderMadduri2008,
+  title={A graph-theoretic analysis of the human protein-interaction network using multicore parallel algorithms},
+  author={David Bader and Kamesh Madduri},
+  journal={Parallel Computing},
+  volume={34},
+  year={2008},
+  comment={\\\\Among other things, discusses betweenness centrality in HPIN dataset (available from Madduri's website).}
+  }
+
+@article{EijkhofBodlaenderKoster2003,
+  title={Safe Reduction Rules for Weighted Treewidth},
+  author={Frank van den Eijkhof and Hans L. Bodlaender and Arie M. C. A. Koster},
+  journal={Algorithmica},
+  year={2007},
+  volume={47},
+  pages={139--158},
+  comment={\\\\Discusses pre-processing rules and strategies that are applied before computing
+  a graph's TW.  They also consider a weighted version of TW that attempts to capture the
+  computational cost associated with using the TD for a particular DP application.}
+  }
+
+@article{Bodlaender2009,
+author ="Hans L. Bodlaender",
+title = "Treewidth: Characterizations, Applications, and Computations",
+journal = "Technical Report UU-CS-2006-041",
+year = "2009",
+comment = {\\\\}
+}
+
+@article{BerryDahlhausHeggeracnesSimonet2008,
+author = "Anne Berry and Elias Dahlhaus and Pinar Heggernes and Geneviève Simonet",
+title = "Sequential and parallel triangulating algorithms for Elimination Game and new insights on Minimum Degree",
+journal = "Theoretical Computer Science",
+volume = "409",
+number = "3",
+pages = "601 - 616",
+year = "2008",
+issn = "0304-3975",
+doi = "DOI: 10.1016/j.tcs.2008.09.059",
+comment = {\\\\}
+}
+
+@inproceedings{HeggernesVillanger2002,
+ author = {Heggernes, Pinar and Villanger, Yngve},
+ title = {Efficient Implementation of a Minimal Triangulation Algorithm},
+ booktitle = {ESA '02: Proceedings of the 10th Annual European Symposium on Algorithms},
+ year = {2002},
+ isbn = {3-540-44180-8},
+ pages = {550--561},
+ publisher = {Springer-Verlag},
+ address = {London, UK},
+ comment = {\\\\}
+ }
+
+@inproceedings{BianGuMarzbanTamakiYoshitake2008,
+  author    = {Zhengbing Bian and
+               Qian-Ping Gu and
+               Marjan Marzban and
+               Hisao Tamaki and
+               Yumi Yoshitake},
+  title     = {Empirical Study on Branchwidth and Branch Decomposition
+               of Planar Graphs},
+  booktitle = {ALENEX},
+  publisher = {SIAM},
+  year      = {2008},
+  pages     = {152-165},
+  comment  = {\\\\}
+}
+
+@misc{BockmayrReinert2010,
+  author    = {A. Bockmayr and
+               K. Reinert},
+  title     = {Discrete Math for Bioinformatics},
+  year      = {2010},
+  pages     = {8001-8016}
+}
+
+
+% Graph Decomposition Papers
+
+@article{RobertsonSeymour1984,
+  author    = {Neil Robertson and Paul D. Seymour},
+  title     = {Graph minors {III}:  Planar tree-width},
+  journal   = {Journal of  Combinatorial Theory, Ser. B},
+  volume    = {36},
+  number    = {1},
+  year      = {1984},
+  pages     = {49-64},
+  ee        = {http://dx.doi.org/10.1016/0095-8956(84)90013-3},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+% courcelle citation somewhere on this page
+% http://www.informatik.uni-trier.de/~ley/db/indices/a-tree/c/Courcelle:Bruno.html
+% Was incollection DBLP:books/el/leeuwen90/Courcelle90
+
+@incollection{Courcelle1990Rewriting,
+  author    = {Bruno Courcelle},
+  title     = {Graph Rewriting: An Algebraic and Logic Approach},
+  booktitle = {Handbook of Theoretical Computer Science, Volume B: Formal Models and Semantics (B)},
+  year      = {1990},
+  pages     = {193-242},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+% Was article DBLP:journals/iandc/Courcelle90
+
+@article{Courcelle1990Monadic,
+  author    = {Bruno Courcelle},
+  title     = {The Monadic Second-Order Logic of Graphs. I. Recognizable
+               Sets of Finite Graphs},
+  journal   = {Inf. Comput.},
+  volume    = {85},
+  number    = {1},
+  year      = {1990},
+  pages     = {12-75},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+
+@Misc{eppstein,
+  author = "D. Eppstein",
+  title = "Tree decomposition image",
+  howpublished = "\url{http://commons.wikimedia.org/wiki/File:Tree_decomposition.svg}",
+  year = 2007
+}
+
+@Misc{BorchersWilson,
+  author = "B. Borchers and A. Wilson",
+  title = "Branch and bound code for maximum independent set",
+  howpublished = "\url{http://euler.nmt.edu/~brian/mis_bpm/}",
+  year=2009
+  }
+
+@article{PinarHeath1999SparseMV,
+  author = "A. Pinar and M. Heath",
+  title = {Improving Performance of Sparse Matrix-Vector Multiplication},
+  journal = "Supercomputing",
+  volume = "99",
+  year = "1999"
+}
+
+@article{McCormick1983Hessian,
+  author = "S. {McCormick}",
+  title = "Optimal approximation of sparse {Hessians} and its equivalence to a graph coloring problem",
+  journal = "Mathematical Programming",
+  volume = "26",
+  pages = "153-171",
+  year = "1983"
+  }
+
+
+% CSC papers
+@inproceedings{HendricksonPothen2006CSC,
+  author    = {Bruce Hendrickson and
+               Alex Pothen},
+  title     = {Combinatorial Scientific Computing: The Enabling Power of
+               Discrete Algorithms in Computational Science},
+  booktitle = {VECPAR},
+  year      = {2006},
+  pages     = {260-280},
+  ee        = {http://dx.doi.org/10.1007/978-3-540-71351-7_21},
+  crossref  = {DBLP:conf/vecpar/2006},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@proceedings{DBLP:conf/vecpar/2006,
+  editor    = {Michel J. Dayd{\'e} and
+               Jos{\'e} M. Laginha M. Palma and
+               Alvaro L. G. A. Coutinho and
+               Esther Pacitti and
+               Jo{\~a}o Correia Lopes},
+  title     = {High Performance Computing for Computational Science - VECPAR
+               2006, 7th International Conference, Rio de Janeiro, Brazil,
+               June 10-13, 2006, Revised Selected and Invited Papers},
+  booktitle = {VECPAR},
+  publisher = {Springer},
+  series    = {Lecture Comments in Computer Science},
+  volume    = {4395},
+  year      = {2007},
+  isbn      = {978-3-540-71350-0},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+
+% Some Bodlaender papers pulled from the DBLP
+
+
+@article{BodlaenderKoster2008CombOpt,
+  author    = {Hans L. Bodlaender and
+               Arie M. C. A. Koster},
+  title     = {Combinatorial Optimization on Graphs of Bounded Treewidth},
+  journal   = {Comput. J.},
+  volume    = {51},
+  number    = {3},
+  year      = {2008},
+  pages     = {255-269},
+  ee        = {http://dx.doi.org/10.1093/comjnl/bxm037},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@incollection{Bodlaender2008TW,
+  author    = {Hans L. Bodlaender},
+  title     = {Treewidth of Graphs},
+  booktitle = {Encyclopedia of Algorithms},
+  year      = {2008},
+  ee        = {http://dx.doi.org/10.1007/978-0-387-30162-4_431},
+  crossref  = {DBLP:reference/algo/2008},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@book{DBLP:reference/algo/2008,
+  editor    = {Ming-Yang Kao},
+  title     = {Encyclopedia of Algorithms},
+  publisher = {Springer},
+  year      = {2008},
+  isbn      = {978-0-387-30162-4},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{BodlaenderKoster2007MaxCard,
+  author    = {Hans L. Bodlaender and
+               Arie M. C. A. Koster},
+  title     = {On the maximum cardinality search lower bound for treewidth},
+  journal   = {Discrete Applied Mathematics},
+  volume    = {155},
+  number    = {11},
+  year      = {2007},
+  pages     = {1348-1372},
+  ee        = {http://dx.doi.org/10.1016/j.dam.2007.02.004},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{BachooreBodlaender2006BranchBound,
+  author    = {Emgad H. Bachoore and
+               Hans L. Bodlaender},
+  title     = {A Branch and Bound Algorithm for Exact, Upper, and Lower
+               Bounds on Treewidth},
+  booktitle = {AAIM},
+  year      = {2006},
+  pages     = {255-266},
+  ee        = {http://dx.doi.org/10.1007/11775096_24},
+  crossref  = {DBLP:conf/aaim/2006},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@proceedings{DBLP:conf/aaim/2006,
+  editor    = {Siu-Wing Cheng and
+               Chung Keung Poon},
+  title     = {Algorithmic Aspects in Information and Management, Second
+               International Conference, AAIM 2006, Hong Kong, China, June
+               20-22, 2006, Proceedings},
+  booktitle = {AAIM},
+  publisher = {Springer},
+  series    = {Lecture Comments in Computer Science},
+  volume    = {4041},
+  year      = {2006},
+  isbn      = {3-540-35157-4},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{BodlaenderFKKT2006Exact,
+  author    = {Hans L. Bodlaender and
+               Fedor V. Fomin and
+               Arie M. C. A. Koster and
+               Dieter Kratsch and
+               Dimitrios M. Thilikos},
+  title     = {On Exact Algorithms for Treewidth},
+  booktitle = {ESA},
+  year      = {2006},
+  pages     = {672-683},
+  ee        = {http://dx.doi.org/10.1007/11841036_60},
+  crossref  = {DBLP:conf/esa/2006},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@proceedings{DBLP:conf/esa/2006,
+  editor    = {Yossi Azar and
+               Thomas Erlebach},
+  title     = {Algorithms - ESA 2006, 14th Annual European Symposium, Zurich,
+               Switzerland, September 11-13, 2006, Proceedings},
+  booktitle = {ESA},
+  publisher = {Springer},
+  series    = {Lecture Comments in Computer Science},
+  volume    = {4168},
+  year      = {2006},
+  isbn      = {3-540-38875-3},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{BodlaenderFomin2005EquiColorings,
+  author    = {Hans L. Bodlaender and
+               Fedor V. Fomin},
+  title     = {Equitable colorings of bounded treewidth graphs},
+  journal   = {Theor. Comput. Sci.},
+  volume    = {349},
+  number    = {1},
+  year      = {2005},
+  pages     = {22-30},
+  ee        = {http://dx.doi.org/10.1016/j.tcs.2005.09.027},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{KosterBodlaenderHoesel2001TWCompExp,
+  author    = {Arie M. C. A. Koster and
+               Hans L. Bodlaender and
+               Stan P. M. van Hoesel},
+  title     = {Treewidth: Computational Experiments},
+  journal   = {Electronic Comments in Discrete Mathematics},
+  volume    = {8},
+  year      = {2001},
+  pages     = {54-57},
+  ee        = {http://dx.doi.org/10.1016/S1571-0653(05)80078-2},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Bodlaender1993Tourist,
+  author    = {Hans L. Bodlaender},
+  title     = {A Tourist Guide through Treewidth},
+  journal   = {Acta Cybern.},
+  volume    = {11},
+  number    = {1-2},
+  year      = {1993},
+  pages     = {1-22},
+  ee        = {http://www.inf.u-szeged.hu/kutatas/actacybernetica/vol11n12/bodlaen/bodlaen.xml},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+%chromaticindex:
+
+@article{Bodlaender1990Polychromatic,
+  author = "H. L. Bodlaender",
+  title =  "Polynomial algorithms for graph isomorphism and chromatic index on partial k-trees",
+  journal = "Journal of Algorithms",
+  volume = "11",
+  pages = "631--643",
+  year = "1990"
+  }
+
+
+%steinertree:
+
+@misc{KorachSolel1990Steiner,
+  author = "E. Korach and N. Solel",
+  title = "Linear time algorithm for minimum weight {Steiner} tree in graphs with bounded treewidth",
+   howpublished = "Manuscript",
+   year = "1990"
+   }
+
+% arnborg:
+
+@article{ArnborgLagergrenSeese1991,
+  author = "S. Arnborg and J. Lagergren and D. Seese",
+  title = "Easy problems for tree-decomposable graphs",
+  journal = "Journal of Algorithms",
+  volume =  "12",
+  pages = "308-–340",
+  year = "1991"
+  }
+
+
+@article{HicksKosterKolotoglu2005,
+  author = "I. V. Hicks and A. M. C. A. Koster and E. Kolotoglu",
+  title = "Branch and tree decomposition techniques for discrete optimization",
+  journal = {Tutorials in Operations Research, INFORMS--New Orleans},
+  year = 2005
+}
+
+
+@INPROCEEDINGS{Bodlaender1994DynamicAlgorithms,
+    author = {Hans L. Bodlaender},
+    title = {Dynamic Algorithms for Graphs with Treewidth 2},
+    booktitle = {in Proc. 19th Workshop on Graph-Theoretic Concepts in Comp. Sc., LNCS 790},
+    year = {1994},
+    pages = {112--124},
+    publisher = {Springer Verlag}
+}
+
+
+@article{RobertsonSeymour1991,
+  author ="N. Robertson and P. D. Seymour",
+  title = {Graph minors {X}: Obstructions to tree-decomposition},
+  journal = "Journal of Combinatorial Theory, Series B",
+  volume="52",
+  pages="153--190",
+  year="1991"
+  }
+
+@article{RobertsonSeymour1995,
+  author ="N. Robertson and P. D. Seymour",
+  title = {Graph minors {XIII}: The disjoint paths problem},
+  journal = "Journal of Combinatorial Theory, Series B",
+  pages = "65--110",
+  volume= "63",
+  year = "1995"
+  }
+
+@article{SeymourThomas1994,
+  author = "P. D. Seymour and R. Thomas",
+  title = "Call routing and the ratcatcher",
+  journal = "Combinatorica",
+  volume = "14",
+  number = "2",
+  pages = "217--241",
+  year = "1994"
+  }
+
+@article{Bodlaender1996,
+  author = "H. L. Bodlaender",
+  title = "A linear time algorithm for finding tree-decompositions of small treewidth",
+  journal = "SIAM Journal of Computing",
+  volume =  "25",
+  pages = "1305--1317",
+  year ="1996"
+  }
+
+@mastersthesis{Rohrig1998,
+  author = "H. R{\"{o}}hrig",
+  title = "Tree decomposition: A feasibility study",
+  school = {Max-Planck-Institut f{\"{u}}ur Informatik},
+  address = {Saarbr{\"{u}}ucken, Germany},
+  year ="1998"
+  }
+
+@misc{CookSeymour1994,
+  author = "W. Cook and P. D. Seymour",
+  title = "An algorithm for the ring-routing problem",
+  Comment =  "Bellcore technical memorandum",
+  year = "1994"
+  }
+
+@article{CookSeymour2003,
+  author = "W. Cook and P. D. Seymour",
+  title = "Tour merging via branch-decomposition",
+  journal = "INFORMS Journal on Computing",
+  volume = "15",
+  number = "3",
+  pages = "233--248",
+  year = "2003"
+  }
+
+@article{Hicks2002,
+  author = "I. V. Hicks",
+  title = "Branchwidth heuristics",
+  journal = "Congressus Numerantium",
+  volume = "159",
+  pages = "31--50",
+  year = "2002"
+  }
+
+@article{ArnborgProskurowski1986,
+  author = "S. Arnborg and A. Proskurowski",
+  title = "Characterization and recognition of partial 3-trees",
+  volume = "7",
+  pages = "305--314",
+  year = "1986",
+  journal = "SIAM Journal on Algebraic and Discrete Methods"
+}
+
+@phdthesis{Koster1999,
+  author = "A. M. C. A. Koster",
+  title = "Frequency Assignment: Models and Algorithms",
+  school = "University of Maastricht",
+  address = {Maastricht, The Netherlands},
+  year = "1999"
+  }
+
+@article{GebremedhinMannePothen2005,
+  author = "Assefaw Hadish Gebremedhin and Fredrik Manne and Alex Pothen",
+  title = {What Color is Your Jacobian?},
+  journal = {SIAM Review},
+  volume = "47",
+  number = "4",
+  pages = "629--705",
+  year = "2005"
+  }
+
+@article{JohnsonRobertsonSeymourThomas2001,
+  author = "T. Johnson and N. Robertson and P. D. Seymour and R. Thomas",
+  title = "Directed Tree-Width",
+  journal = {Journal of  Combinatorial Theory, Ser. B},
+  volume = "82",
+  pages = "138-155",
+  year = "2001"
+  }
+
+@article{Lagergren1996,
+  author    = {Jens Lagergren},
+  title     = {Efficient Parallel Algorithms for Graphs of Bounded Tree-Width},
+  journal   = {J. Algorithms},
+  volume    = {20},
+  number    = {1},
+  year      = {1996},
+  pages     = {20-44},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@phdthesis{Obdrzalek2006,
+  author = "Jan Obdr{\v{z}}{\'{a}}lek",
+  title = "Algorithmic Analysis of Parity Games",
+  year = "2006",
+  school = {University of Edinburgh},
+  address = {Edinburgh, Scotland}
+  }
+
+@inproceedings{Safari2005,
+  author    = {Mohammad Ali Safari},
+  title     = {D-Width: A More Natural Measure for Directed Tree Width},
+  booktitle = {MFCS},
+  year      = {2005},
+  pages     = {745-756},
+  ee        = {http://dx.doi.org/10.1007/11549345_64},
+  crossref  = {DBLP:conf/mfcs/2005},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@proceedings{DBLP:conf/mfcs/2005,
+  editor    = {Joanna Jedrzejowicz and
+               Andrzej Szepietowski},
+  title     = {Mathematical Foundations of Computer Science 2005, 30th
+               International Symposium, MFCS 2005, Gdansk, Poland, August
+               29 - September 2, 2005, Proceedings},
+  booktitle = {MFCS},
+  publisher = {Springer},
+  series    = {Lecture Comments in Computer Science},
+  volume    = {3618},
+  year      = {2005},
+  isbn      = {3-540-28702-7},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{Lagergren1990,
+  author    = {Jens Lagergren},
+  title     = {Efficient Parallel Algorithms for Tree-Decomposition and
+               Related Problems},
+  booktitle = {FOCS},
+  year      = {1990},
+  pages     = {173-182},
+  crossref  = {DBLP:conf/focs/FOCS31a},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@proceedings{DBLP:conf/focs/FOCS31a,
+  title     = {31st Annual Symposium on Foundations of Computer Science,
+               22-24 October 1990, St. Louis, Missouri, USA},
+  booktitle = {FOCS},
+  publisher = {IEEE},
+  volume    = {I},
+  year      = {1990},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{Bodlaender1988,
+  author    = {Hans L. Bodlaender},
+  title     = {NC-Algorithms for Graphs with Small Treewidth},
+  booktitle = {WG},
+  year      = {1988},
+  pages     = {1-10},
+  crossref  = {DBLP:conf/wg/1988},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@proceedings{DBLP:conf/wg/1988,
+  editor    = {Jan van Leeuwen},
+  title     = {Graph-Theoretic Concepts in Computer Science, 14th International
+               Workshop, WG '88, Amsterdam, The Netherlands, June 15-17,
+               1988, Proceedings},
+  booktitle = {WG},
+  publisher = {Springer},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {344},
+  year      = {1989},
+  isbn      = {3-540-50728-0},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{Reed1992,
+  author    = {Bruce A. Reed},
+  title     = {Finding Approximate Separators and Computing Tree Width
+               Quickly},
+  booktitle = {STOC},
+  year      = {1992},
+  pages     = {221-228},
+  crossref  = {DBLP:conf/stoc/STOC24},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@proceedings{DBLP:conf/stoc/STOC24,
+  title     = {Proceedings of the Twenty Fourth Annual ACM Symposium on
+               Theory of Computing, 4-6 May 1992, Victoria, British Columbia,
+               Canada},
+  booktitle = {STOC},
+  publisher = {ACM},
+  year      = {1992},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@misc{UTHASH2011,
+  author    = {T. Hanson},
+  title     = {\texttt{uthash}, A hash table for $C$ structures},
+  year      = {2011},
+  url ={http://uthash.sourceforge.net/}}
+
+@article{Thorntonintroducing,
+  title={Introducing the MADNESS numerical framework for petascale computing},
+  author={Thornton, W.S. and Vence, N. and Harrison, R.}
+}
+
+@article{Dourisboure2007tree,
+  title={Tree-decompositions with bags of small diameter},
+  author={Dourisboure, Y. and Gavoille, C.},
+  journal={Discrete Mathematics},
+  volume={307},
+  number={16},
+  pages={2008--2029},
+  year={2007},
+  publisher={Elsevier}
+}
+
+@inproceedings{Diestel2005graph,
+  title={Graph theory},
+  booktitle={Graduate texts in mathematics},
+  author={Diestel, Reinhard},
+  volume=173,
+  year=2005
+}
+
+@article{Gavril1974intersection,
+  title={The intersection graphs of subtrees in trees are exactly the chordal graphs},
+  author={Gavril, F.},
+  journal={Journal of Combinatorial Theory, Series B},
+  volume={16},
+  number={1},
+  pages={47--56},
+  year={1974},
+  publisher={Elsevier}
+}
+
+@article{Karypis1999fast,
+  title={A fast and high quality multilevel scheme for partitioning irregular graphs},
+  author={Karypis, G. and Kumar, V.},
+  journal={SIAM Journal on Scientific Computing},
+  volume=20,
+  number=1,
+  pages=359,
+  year=1999,
+  publisher={Philadelphia, PA: SIAM, c1993-},
+  comment={\\\\Reference for METIS library.}
+
+}
+
+@article{Karypis1997parmetis,
+  title={{PARMETIS}: Parallel graph partitioning and sparse matrix ordering library},
+  author={Karypis, G. and Schloegel, K. and Kumar, V.},
+  journal={Version 1.0, Dept. of Computer Science, University of Minnesota},
+  year={1997}
+}
+
+@inproceedings{Karypis1996parallel,
+  title={Parallel multilevel graph partitioning},
+  author={Karypis, G. and Kumar, V.},
+  booktitle={Parallel Processing Symposium, 1996., Proceedings of IPPS'96, The 10th International},
+  pages={314--319},
+  year={1996},
+  organization={IEEE}
+}
+
+@inproceedings{Karypis1996parallel_k,
+  title={Parallel multilevel k-way partitioning scheme for irregular graphs},
+  author={Karypis, G. and Kumar, V.},
+  booktitle={Supercomputing, 1996. Proceedings of the 1996 ACM/IEEE Conference on},
+  pages={35--35},
+  year={1996},
+  organization={IEEE}
+}
+
+@article{Amestoy2004algorithm,
+  title={Algorithm 837: {AMD}, an approximate minimum degree ordering algorithm},
+  author={Amestoy, P.R. and Davis, T.A. and Duff, I.S.},
+  journal={ACM Transactions on Mathematical Software (TOMS)},
+  volume={30},
+  number={3},
+  pages={381--388},
+  year={2004},
+  publisher={ACM},
+comment={\\\\ AMD algorithm}
+
+}
+
+
+@article{serialTM,
+  title={Software for Constructing Tree Decompositions and Solving Weighted Independent Set Problems},
+  author={Blair D. Sullivan and Chris Gro\"er and Dinesh Weerapurage},
+  year={2012},
+  journal={ORNL/TM-2012/176},
+  publisher={Oak Ridge National Laboratory}
+  }
+
+@article{HendricksonEO,
+ author = {Hendrickson, Bruce and Rothberg, Edward},
+ title = {Improving the Run Time and Quality of Nested Dissection Ordering},
+ journal = {SIAM J. Sci. Comput.},
+ issue_date = {March 1998},
+ volume = {20},
+ number = {2},
+ month = dec,
+ year = {1998},
+ issn = {1064-8275},
+ pages = {468--489},
+ numpages = {22},
+ url = {http://dx.doi.org/10.1137/S1064827596300656},
+ doi = {10.1137/S1064827596300656},
+ acmid = {305312},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
+ keywords = {graph algorithms, graph partitioning, minimum degree, nested dissection, sparse matrix ordering},
+} 
