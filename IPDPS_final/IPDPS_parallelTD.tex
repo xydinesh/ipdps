@@ -229,10 +229,10 @@ being varied.
 
 \subsection{Sequential Algorithms}\label{sec:seq_algorithm}
 
-Before presenting the details of our parallel algorithm and related computational results, we describe the general idea behind a serial algorithm for solving the maximum weighted independent set (MWIS) problem using dynamic programming and discuss the various bottlenecks that one encounters in the serial environment. The general process for solving MWIS using tree decompositions to achieve fixed parameter tractability is shown in Figure~\ref{fig:sequential.algorithm}, and described in detail in \cite{serialTM}.
+Before presenting the details of our parallel algorithm and related computational results, we describe the general idea behind a serial algorithm for solving the maximum weighted independent set (MWIS) problem using dynamic programming and discuss the various bottlenecks that one encounters in the serial environment. The general process for solving MWIS using tree decompositions to achieve fixed parameter tractability is shown in Figure~\ref{fig:sequential.algorithm}.%, and described in detail in \cite{serialTM}.
 At a high level, after initializing the graph, an elimination ordering is computed and used to
-guide triangulation (line~\ref{alg:triangulate} in Algorithm~\ref{alg:gavril}), a process of adding edges to make the graph chordal. It is then easy to compute a tree decomposition for the chordal graph using Gavril's construction routine
-(lines \ref{alg:startgavtd}-\ref{alg:endgavtd} in Algorithm~\ref{alg:gavril}). 
+guide triangulation (line~\ref{alg:triangulate} in Algorithm~\ref{alg:gavril}), a process of adding edges to make the graph chordal. It is then easy to compute a tree decomposition for the chordal graph using Gavril's construction routine~\cite{Gavril1974}.
+%(lines \ref{alg:startgavtd}-\ref{alg:endgavtd} in Algorithm~\ref{alg:gavril}). 
 
 \begin{figure*}[!th]
 \includegraphics[scale=0.60]{figures/SequentialAlgorithmDiagram.pdf}
@@ -245,46 +245,11 @@ following a post-order walk on the tree $T$. At each node, we construct a hash t
 solutions --- for MWIS, this stores each independent set within the bag with the weight
 of the best possible ``expansion'' of that set into the subtree rooted
 at that bag. As shown in Algorithm~\ref{alg:compute_dp_table}, we can reduce memory requirements
-by storing only the independent sets in the intersection of a bag with that of its parent node (also described in ~\cite{serialTM}).
+by storing only the independent sets in the intersection of a bag with that of its parent node %(also described in ~\cite{serialTM}).
 When the post-order walk terminates at the root, the highest weight in the root node's hash table is the
 maximum weight of any independent set in the graph $G$. If the elements in the maximum
 weighted independent set are desired, extra bookkeeping is required during the computation,
 and the algorithm must walk back ``down'' the tree to construct the solution from the hash tables.
-
-
-\begin{algorithm}[ht!]
-\caption{Gavril's tree decomposition algorithm}
-\label{alg:gavril}
-\begin{algorithmic}[1]
-\Procedure{Gavril}{$G$,$\pi$}\\
-$\triangleright$\text{ Graph $G=(V,E)$, $\pi$ a permutation of $V$}
-\State Initialize $T = (X, (I,F))$ with $X = I = F = \emptyset$
-%\State $H = G$; $n=|V|$
-%\For{$i = 1$ to $n$}\Comment{Triangulate $G$}
-\State
-\textsc H = \textsc{Triangulate}($\pi, G$);\label{alg:triangulate}
-%$H$=\textsc{Eliminate}($H$,$\pi_i$,$\{\pi_{i+1}$,{\tiny \ldots},$\pi_n\}$,\texttt{false}); \label{alg:triangulate}
-%\EndFor
-\State $n = |V|$, $k = 1$, $I = \{1\}$, $X_1 = \{\pi_n\}$
-\State $t[\pi_n] =1$ \hfill \text{$\triangleright$ $t$ is an $n$-long array}
-\For{$i = n-1$ to $1$} \label{alg:startgavtd} %\Comment{Iterate backwards through $\pi$ to construct $T$}
-%BDS Do we need to document the calling syntax of getneighbors?
-\State $B_i$=$\text{\textsc{GetNeighbors}}(H,\pi_i,\{\pi_{i+1}$,{\tiny \ldots},$\pi_n\})$; \label{alg:get_nbrs}
-\State Find $m = j$ such that $j \leq k$ for all $\pi_k \in B_i$;
-\If{$B_i = X_{t[m]}$} \label{gav:line:bag_merge}
-\State $X_{t[m]} = X_{t[m]} \cup \{\pi_i\}$;
-\State $t[\pi_i] = t[m]$;
-\Else
-\State $k=k+1$;
-\State $I = I \cup \{k\}$; $X_{k} = B_i \cup \{\pi_i\}$; 
-\State $F = F \cup \{k, t[m]\}$; \hfill \text{$\triangleright$ update $T$}
-\State $t[\pi_i] = k$;
-\EndIf
-\EndFor
-\State \textbf{return}  $T = (X, (I,F))$;\label{alg:endgavtd}
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
 
 \begin{algorithm}[!ht]
 \caption{Compute a node's hash table}\label{alg:compute_dp_table}
@@ -391,11 +356,12 @@ were often unacceptably larger than their sequential analogues. We note that mor
 employed to find the ordering were originally designed to minimize the number of edges added
 in the triangulation and offer mixed results with respect to width (see \cite{serialTM}).
 
+%EDIT ME - add sentence describing PARFINDELIMORDER.
 Since the complexity of the dynamic programming
 is exponential in the treewidth, it is critical to devise a parallel ordering routine that limits this
 inflation. Based on ideas in a paper of Hendrickson et al.~\cite{HendricksonEO},
-we created a two-step procedure shown in Algorithm~\ref{alg:eo_parmetis} that
-uses ParMETIS to partition the nodes into subsets which have known relative positions in the final order, then
+we created a two-step procedure %shown in Algorithm~\ref{alg:eo_parmetis} that
+that uses ParMETIS to partition the nodes into subsets which have known relative positions in the final order, then
 runs a second fill-reducing heuristic on the subgraph induced by each subset to refine the ordering. We chose to use
 the AMD algorithm~\cite{Amestoy2004algorithm} for the second step, based on experimental results in ~\cite{serialTM}. For computational results and conclusions, please see Section~\ref{sec:exp_elimination_order}.
 
@@ -405,63 +371,20 @@ the AMD algorithm~\cite{Amestoy2004algorithm} for the second step, based on expe
 \label{fig:pkt.td}
 \end{figure}
 
-%%%%%%%%%%%% Algorithm ParMETIS and AMD %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{algorithm}[ht!]
-\caption{Find elimination ordering using ParMETIS (optionally with AMD)}
-\label{alg:eo_parmetis}
-\begin{algorithmic}[1]
-\Procedure{ParFindElimOrder}{G, useAMD}
-\text{$\triangleright$ Let $G=(V,E)$, $|V| = n$, and $size/rank$}\\ \text{ be the
- MPI communicator size and task rank}
-\State $x = n/size, xm = n \mod size$
-\State Let $vtxdist[]$ be an array of $size + 1$, storing 
-\State MPI task displacement, with $vtxdist[1] = 0$
-\State $vtxdist[i] = vtxdist[i-1] + x \quad \forall \;i \in [2,size + 1]$
-\State $V$= $\cup_{i=1}^{size} \alpha_i$; $\alpha_i$ =$\{ v_{ix}, v_{ix + 1},\ldots, v_{x(i+1)-1}\}$
-\State \text{$\triangleright$ Local node neighbor info in $adjncy[]$, $xadj[]$}
-\State $ \left. \begin{array}{lll}
-adjncy & =& \text{concat}(adjncy,N(v_j)) \\
-xadj_{v_j} & = & |adjncy|\\
-\end{array} \right] \forall \; v_j \in \alpha_i$
-\State
-\textsc{ParMETIS\_V3\_NodeND}($vtxdist$,$adjncy$,$xadj$)\label{parmetis_serialnodend}
-\State Re-ordered vertices of $i^{th}$ MPI task are in
-$\alpha^{\prime}_{i}$, 
-\State collect vertices into root MPI task.
-\State $V^{\prime}$ =  $(\alpha^{\prime}_1, \ldots, \alpha^{\prime}_{size})$ with
-\State $\alpha^{\prime}_i$= $(v^{\prime}_{ix}, v^{\prime}_{ix + 1},\ldots , v^{\prime}_{x(i+1) -1})$
-\State \text{$\triangleright$ Translate ParMETIS indices back to vertices}
-\State $V^{\prime\prime}[v^{\prime}_i] = v_{i} \ where\ i \in [1,n]$; 
-\If{!useAMD}
-\State \textbf{return} $V^{\prime\prime}$;
-\EndIf
-\State \text{$\triangleright$ Redistribute $V^{\prime\prime}$ among tasks}
-\State $V^{\prime\prime} = \{v^{\prime\prime}_1, v^{\prime\prime}_2, \ldots,
-v^{\prime\prime}_n \} = \{\beta_1 \cup \beta_2 \cup \ldots \cup \beta_{size}\}$
-\State $\beta_i = \{ v^{\prime\prime}_{ix}, v^{\prime\prime}_{ix +
-  1},\ldots, v^{\prime\prime}_{x(i+1) - 1}\}$ \quad $i \in [1,size]$
-\State $\pi_i = \textsc{FindElimOrder}(G[\beta_i],AMD)$
-\State \textbf{return} $\Pi = (\pi_1, \pi_2, \ldots, \pi_{size})$
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-%\footnotetext{Concatenate {\it adjncy} vector and $N(v_j)$}
-%%%%%% Algorithm ParMETIS and AMD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \subsection{A parallel version of Gavril's algorithm}
-Once the elimination ordering time has been reduced, Gavril's algorithm (Algorithm~\ref{alg:gavril})
+Once the elimination ordering time has been reduced, Gavril's algorithm ~\cite{Gavril1974} %(Algorithm~\ref{alg:gavril})
 dominates the tree decomposition computation. We parallelize this algorithm
 using a hybrid MPI + \emph{pthreads} approach as described in Algorithm~\ref{alg:pbag_gen}. This distributes the work of finding forward neighbors and
 calculating tree edges across multiple compute nodes, with
 multiple bags being generated simultaneously on each node.
+%EDIT ME!
 Since the bag $X_{t[m]}$ in line ~\ref{gav:line:bag_merge} of Algorithm~\ref{alg:gavril}
 is not locally known in a distributed environment, we postpone the bag unions to
 a sequential refinement stage, temporarily creating a tree with exactly
 $n$ nodes. The master process then operates on the full set of
 $n$ bags and $n-1$ edges, merging appropriate nodes to produce a tree equivalent to the sequential
-algorithm described in Algorithm~\ref{alg:gavril} (for the same elimination ordering). In Algorithm~\ref{alg:par_td}, 
-the subroutine \textsc{ReplaceParent} is used to remove redundancy when a parent and child in the unrefined tree have identical bags by essentially removing the child from the tree, making its children now directly inherent from what was their grandparent.
+algorithm (for the same elimination ordering). In Algorithm~\ref{alg:par_td}, 
+the subroutine \textsc{ReplaceParent} is used to remove redundancy when a parent and child in the unrefined tree have identical bags by essentially removing the child from the tree, making its children now directly inherit from what was their grandparent.
 
 %%%%%%%%%%%%%% Threaded Bag Processing  %%%%%%%%%%%%%%%%%%%
 \begin{algorithm}[ht!]
@@ -559,24 +482,10 @@ for parallel data structures and functionality required for
 task-oriented computation. Key features include
 a) futures to manage dependencies and hide
 latency; b) global name spaces; c) non-process-centric
-computing; and d) dynamic load balancing and data redistribution~\cite{Thorntonintroducing}.
-
-
-When solving problems using dynamic programming and tree decompositions,
-the (rooted) decomposition determines a number of data dependencies in
-the algorithm. For instance, in Figure~\ref{fig:td_dep} (which shows
-a small part of a tree decomposition with children drawn below their
-parents) the processing of tree node $B$ cannot finish
-until computation at all its children ($D$, $E$ and $F$) has completed.
-Therefore we use MADNESS tasks to encapsulate the computation required at each
+computing; and d) dynamic load balancing and data redistribution~\cite{Thorntonintroducing}. 
+We use MADNESS tasks to encapsulate the computation required at each
 tree node, and define dependencies using futures.
 
-\begin{figure}[ht!]
-\centering
-\includegraphics[scale=.30]{figures/td_dep.eps}
-\caption{Example of dependencies in a tree}
-\label{fig:td_dep}
-\end{figure}
 %\subsection{Task oriented computing and MADNESS parallel runtime}
 
 % \subsection{Parallel dynamic programming algorithm}
@@ -596,9 +505,12 @@ define MADNESS tasks recursively via a pre-order walk starting at the root,
 using Algorithm~\ref{alg:ComputeTable}.
 At the leaf nodes, full hash tables are computed and returned
 to the parent node via a special \textsc{LeafTable} routine, similar to
+%EDIT ME
 Algorithm 5 in ~\cite{serialTM}. After launching tasks for their children,
 internal nodes of the tree wait for each child to finish, then incorporate the partial solutions
-into the current table. The MADNESS task model enables us to
+into the current table. 
+%EDIT ME - add description of what was UPDATETABLE (use name)
+The MADNESS task model enables us to
 implement asynchronous table updates --- the parent can update the table with
 input from each child as it finishes, in an arbitrary order. Some care
 must be taken to avoid race conditions, but the overall impact is
@@ -607,19 +519,6 @@ completed prior to receiving updates from its last child). It should be noted th
 although the tree nodes will likely be processed on different compute nodes,
 the MADNESS runtime frees the application developer from having to
 worry about the physical location of each table.
-
-\begin{algorithm}[ht!]
-\caption{Update weights at a node $i$ with values
-  from child $C$}\label{alg:UpdateTable}
-\begin{algorithmic}[1]
-\Procedure{UpdateTable}{$i, C$}
-\State Let $W_{X_i}[p]$ denote the weight of an independent set $p \subseteq X_i$
-\For{all independent sets $s \subseteq X_i$}
-\State $W_{X_i}[s]$ = $W_{X_i}[s]$ + $W_{C}[s]$
-\EndFor
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
 
 \begin{algorithm}[ht!]
 \caption{Compute hash table for bag $X_{i}$}\label{alg:ComputeTable}
