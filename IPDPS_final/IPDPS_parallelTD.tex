@@ -356,14 +356,12 @@ were often unacceptably larger than their sequential analogues. We note that mor
 employed to find the ordering were originally designed to minimize the number of edges added
 in the triangulation and offer mixed results with respect to width (see \cite{serialTM}).
 
-%EDIT ME - add sentence describing PARFINDELIMORDER.
+%NEW TEXT
 Since the complexity of the dynamic programming
 is exponential in the treewidth, it is critical to devise a parallel ordering routine that limits this
 inflation. Based on ideas in a paper of Hendrickson et al.~\cite{HendricksonEO},
-we created a two-step procedure %shown in Algorithm~\ref{alg:eo_parmetis} that
-that uses ParMETIS to partition the nodes into subsets which have known relative positions in the final order, then
-runs a second fill-reducing heuristic on the subgraph induced by each subset to refine the ordering. We chose to use
-the AMD algorithm~\cite{Amestoy2004algorithm} for the second step, based on experimental results in ~\cite{serialTM}. For computational results and conclusions, please see Section~\ref{sec:exp_elimination_order}.
+we created a two-step procedure that first uses ParMETIS to partition the nodes into subsets which have known 
+relative positions in the final order, then runs a second fill-reducing heuristic (we chose the AMD algorithm~\cite{Amestoy2004algorithm} on the subgraph induced by each subset  to refine the ordering. Note that the second step runs may be done in parallel as the subsets are disjoint. For computational results and conclusions, please see Section~\ref{sec:exp_elimination_order}.
 
 \begin{figure}[ht]
 \includegraphics[angle=0,width=3.1in]{figures/fig3_col.pdf}
@@ -374,14 +372,13 @@ the AMD algorithm~\cite{Amestoy2004algorithm} for the second step, based on expe
 \subsection{A parallel version of Gavril's algorithm}
 Once the elimination ordering time has been reduced, Gavril's algorithm ~\cite{Gavril1974} %(Algorithm~\ref{alg:gavril})
 dominates the tree decomposition computation. We parallelize this algorithm
-using a hybrid MPI + \emph{pthreads} approach as described in Algorithm~\ref{alg:pbag_gen}. This distributes the work of finding forward neighbors and
-calculating tree edges across multiple compute nodes, with
-multiple bags being generated simultaneously on each node.
-%EDIT ME!
-Since the bag $X_{t[m]}$ in line ~\ref{gav:line:bag_merge} of Algorithm~\ref{alg:gavril}
+using a hybrid MPI + \emph{pthreads} approach as described in Algorithm~\ref{alg:pbag_gen}. This distributes the work of finding forward neighbors and calculating tree edges across multiple compute nodes, with multiple bags being generated simultaneously on each node.
+%NEW TEXT
+In Gavril's original algorithm, when the bag for a vertex is created, it is compared with bags already in the decomposition to see 
+if it can be created by just adding the vertex currently under consideration. Since these bags may not be locally known 
+%Since the bag $X_{t[m]}$ in line ~\ref{gav:line:bag_merge} of Algorithm~\ref{alg:gavril}
 is not locally known in a distributed environment, we postpone the bag unions to
-a sequential refinement stage, temporarily creating a tree with exactly
-$n$ nodes. The master process then operates on the full set of
+a sequential refinement stage, temporarily creating a tree with exactly $n$ nodes. The master process then operates on the full set of
 $n$ bags and $n-1$ edges, merging appropriate nodes to produce a tree equivalent to the sequential
 algorithm (for the same elimination ordering). In Algorithm~\ref{alg:par_td}, 
 the subroutine \textsc{ReplaceParent} is used to remove redundancy when a parent and child in the unrefined tree have identical bags by essentially removing the child from the tree, making its children now directly inherit from what was their grandparent.
@@ -503,13 +500,10 @@ regardless of the physical location of the data.
 Once all nodes are prepared, and the distributed container is populated, we
 define MADNESS tasks recursively via a pre-order walk starting at the root,
 using Algorithm~\ref{alg:ComputeTable}.
-At the leaf nodes, full hash tables are computed and returned
-to the parent node via a special \textsc{LeafTable} routine, similar to
-%EDIT ME
-Algorithm 5 in ~\cite{serialTM}. After launching tasks for their children,
+At the leaf nodes, full hash tables with all independent sets are computed and returned
+to the parent node via a \textsc{LeafTable} routine. After launching tasks for their children,
 internal nodes of the tree wait for each child to finish, then incorporate the partial solutions
-into the current table. 
-%EDIT ME - add description of what was UPDATETABLE (use name)
+into the current table in \textsc{UpdateTable}. %NEW TEXT 
 The MADNESS task model enables us to
 implement asynchronous table updates --- the parent can update the table with
 input from each child as it finishes, in an arbitrary order. Some care
