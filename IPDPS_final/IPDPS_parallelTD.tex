@@ -372,7 +372,12 @@ relative positions in the final order, then runs a second fill-reducing heuristi
 \subsection{A parallel version of Gavril's algorithm}
 Once the elimination ordering time has been reduced, Gavril's algorithm ~\cite{Gavril1974} %(Algorithm~\ref{alg:gavril})
 dominates the tree decomposition computation. We parallelize this algorithm
-using a hybrid MPI + \emph{pthreads} approach as described in Algorithm~\ref{alg:pbag_gen}. This distributes the work of finding forward neighbors and calculating tree edges across multiple compute nodes, with multiple bags being generated simultaneously on each node.
+using a hybrid MPI + \emph{pthreads} approach as described in Algorithm~\ref{alg:pbag_gen}. 
+% Begin Edit Dinesh
+% Add information on how we used MPI + pthread for parallel  tree decomposition.
+Vertices of the original graph distributed evenly between MPI processes. The vertices assigned to each MPI process further divided based on available pthreads on the system.
+% End Edit Dinesh
+This distributes the work of finding forward neighbors and calculating tree edges across multiple compute nodes, with multiple bags being generated simultaneously on each node.
 %NEW TEXT
 In Gavril's original algorithm, when the bag for a vertex is created, it is compared with bags already in the decomposition to see 
 if it can be created by just adding the vertex currently under consideration. Since these bags may not be locally known 
@@ -491,11 +496,19 @@ Important steps in any parallel algorithm for solving the maximum weighted indep
 using dynamic programming are a) creating a table for storing all independent sets; and
 b) updating weights of the independent sets at a tree node based on the values from children.
 
-Tree nodes are distributed across tasks using a mapping function
-provided by the MADNESS parallel runtime. The task owning each node is responsible
-for populating the local data structures and adding it to a MADNESS distributed container
-(a built-in distributed hash-map-like data structure). The local data structures are small (e.g. a $w\times w$ bitwise matrix, where $w$ is the bag size), and identical to those populated in the serial implementation; they include the bag intersections with children/parent nodes, list of adjacent tree nodes, and the associated induced subgraph.  Since the work for ``preparing'' each node is independent, we employ OpenMP within the task to speed up this pre-processing phase. All tasks can then access information using a key in the distributed container
-regardless of the physical location of the data. 
+% Begin Edit Dinesh
+% Explain how we use OpenMP with Madness
+One can configure MADNESS runtime to match processor layout in a compute node, assigning MADNESS tasks as desired.
+Also, MADNESS runtime provides configurations to assign threads for each MADNESS tasks. However, user does not have any control over work done by the threads which are controlled by the runtime.
+In order to limit communication between MADNESS tasks and make self contained tree nodes, we define a local data structure in every bag before distribute using runtime's distributed container.
+The local data structures are small (e.g. a $w\times w$ bitwise matrix, where $w$ is the bag size), and identical to those populated in the serial implementation; they include the bag intersections with children/parent nodes, list of adjacent tree nodes, and the associated induced subgraph.  Since the work for ``preparing'' each node is independent, we employ OpenMP within the task to speed up this pre-processing phase. All tasks can then access information using a key in the distributed container regardless of the physical location of the data. Tree nodes are distributed across tasks using a mapping function provided by the MADNESS parallel runtime. The task owning each node is responsible for populating the local data structures and adding it to a MADNESS distributed container (a built-in distributed hash-map-like data structure). 
+
+%Tree nodes are distributed across tasks using a mapping function
+%provided by the MADNESS parallel runtime. The task owning each node is responsible
+%for populating the local data structures and adding it to a MADNESS distributed container
+%(a built-in distributed hash-map-like data structure). The local data structures are small (e.g. a $w\times w$ bitwise matrix, where $w$ is the bag size), and identical to those populated in the serial implementation; they include the bag intersections with children/parent nodes, list of adjacent tree nodes, and the associated induced subgraph.  Since the work for ``preparing'' each node is independent, we employ OpenMP within the task to speed up this pre-processing phase. All tasks can then access information using a key in the distributed container
+%regardless of the physical location of the data. 
+% End Edit Dinesh
 
 Once all nodes are prepared, and the distributed container is populated, we
 define MADNESS tasks recursively via a pre-order walk starting at the root,
