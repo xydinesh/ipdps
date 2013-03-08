@@ -89,7 +89,7 @@ allow others to do so, for U.S. Government purposes.}
 Although many NP-hard graph optimization problems can be solved in
 polynomial time on graphs of bounded tree-width, the adoption of these
 techniques into mainstream scientific computation has been limited due
-to the high memory requirements of the necessary dynamic programming tables
+to the high memory requirements of the dynamic programming tables
 and excessive runtimes of sequential implementations.  This work
 addresses both challenges by proposing a set of new parallel
 algorithms for all steps of a tree decomposition-based approach to
@@ -132,12 +132,12 @@ One potential reason for the lack of parallel approaches is that
 the memory requirements for tree decomposition-based
 dynamic programming can be staggering, even for graphs with very few nodes and edges.
 For example, a good heuristic produces a decomposition with width 313 for the
-DIMACS challenge graph \emph{1dc.512}. \cite{DIMACS}  The largest bag in this decomposition would
-require roughly $10^{14}$ bytes of memory.
-% CSGCSG - broke into two sentences and added citation
-We are aware of no other attempts to
-parallelize either the construction of a tree decomposition or the
-subsequent dynamic programming.  Here we present the first
+DIMACS challenge graph \emph{1dc.512}. \cite{DIMACS}  The largest bag in this decomposition could
+require roughly $10^{14}$ bytes of memory for its dynamic programming table (if almost all subsets were independent).
+%BDS - reworded below sentence; added clarification on memory usage above.
+We are aware of no other implementations of parallel algorithms for either the construction of a tree decomposition or the
+subsequent dynamic programming.  
+Here we present the first
 serious effort to address the various computational issues by
 applying high performance computing (HPC) to this area.
 
@@ -145,30 +145,24 @@ There is a potential for parallelism inherent to tree decomposition-based algori
 about the graph, and (ii) the dynamic programming tables
 for large sets of tree nodes can be computed independently of
 one another.
-% CSG
 While the dynamic programming tables for the leaf nodes in the tree decomposition
 can be computed simultaneously, the computation as a whole is difficult to
 parallelize. One might think that one could proceed up the levels of the tree in a
 bulk-synchronous fashion. However, this is a poor strategy for a number of reasons.
 First, the amount of work at each tree node is $O(w^{\log w})$ \cite{wilfcomplexity}.
-% CSGCSG added citation
 Since the size of the bags in the tree decomposition can vary quite a bit,
 this growth can lead to wide variation in the amount of time required to process a tree node.
 Second, the tree itself can be very unbalanced (see Figure \ref{fig:unbalanced_tree}) and since we can't process a tree node
-until all nodes below it are processed, this leads to a very asynchronous type of workload
+until all nodes below it are processed, this leads to a very asynchronous workload
 that is very difficult to load balance.
-% CSGCSG - added image here
 These features of the tree and the related dynamic programming
 force one to adopt a non-traditional approach when designing a parallel
 algorithm.
-% CSG
 Our work leverages the task-based framework offered
 by MADNESS (Multiresolution Adaptive Numerical
 Environment for Scientific Simulation) ~\cite{Thorntonintroducing} in order to handle the work distribution,
 load balancing, and asynchronous nature of the dynamic
-programming. We establish links between algorithms from several disparate communities by using PARMETIS~\cite{Karypis1997parmetis} as part of the tree
-decomposition construction, and the MADNESS runtime to handle the irregular, asynchronous properties of the
-dynamic programming.
+programming. For graphs with large size (which we measure by the number of vertices) and low treewidth, the results are compelling, and we achieve near linear speedups relative to a serial implementation. 
 
 % CSG inserting PR124_TD.pdf here
 \begin{figure*}[!th]
@@ -181,13 +175,10 @@ a layer-by-layer dynamic programming approach very inefficient}
 \end{figure*}
 
 
-For graphs with large size (which we measure by the number of vertices) and low treewidth, the results are compelling, and we achieve near linear speedups relative to a serial implementation. 
 % CSGCSG commenting out since Gurobi experimentw as a failure...
 %These new algorithmic enhancements and improvements in implementation efficiency enable us to exactly 
 %solve optimization problems on networks that are several orders of magnitude larger (in terms of the number of
 %nodes/edges) than attainable with other methods from the literature.
-
-
 
 The algorithms described in this paper have been implemented as part of the
 open source INDDGO\footnotemark software package~\cite{inddgo}.
@@ -231,7 +222,7 @@ is a collection of subsets of $V$ and $T = (I,F)$ is a tree (acyclic graph) with
 \item for every $v \in V$, if $X_i$ and $X_j$ contain $v$ for some
   $i,j \in I$, then $X_k$ also contains $v$ for all $k$ on the
   (unique) path in $T$ connecting $i$ and $j$. In other words, the set
-  of nodes whose associated subsets contain $v$ form a connected sub-tree of
+  of nodes whose associated subsets contain $v$ form a connected subtree of
   $T$.
 \end{enumerate}
 
@@ -275,7 +266,7 @@ being varied.
 Before presenting the details of our parallel algorithm and related computational results, we describe the general idea behind a serial algorithm for solving the maximum weighted independent set (MWIS) problem using dynamic programming and discuss the various bottlenecks that one encounters in the serial environment. 
 The general process for solving MWIS using tree decompositions to achieve fixed parameter tractability is shown in Figure~\ref{fig:sequential.algorithm}.  
 At a high level, after initializing the graph, an elimination ordering is computed and used to
-guide triangulation , a process of adding edges to make the graph chordal. 
+guide triangulation, a process of adding edges to make the graph chordal. 
 % CSGCSG removing this - we don't have these anymore
 % (line~\ref{} \ref{alg:triangulate} in Algorithm~\ref{alg:gavril})
 It is then easy to compute a tree decomposition for the chordal graph using Gavril's construction routine~\cite{Gavril1974}.
@@ -292,7 +283,7 @@ following a post-order walk on the tree $T$. At each node, we construct a hash t
 solutions --- for MWIS, this stores each independent set within the bag with the weight
 of the best possible ``expansion'' of that set into the subtree rooted
 at that bag. As shown in Algorithm~\ref{alg:compute_dp_table}, we can reduce memory requirements
-by storing only the independent sets in the intersection of a bag with that of its parent node %(also described in ~\cite{serialTM}).
+by storing only the independent sets in the intersection of a bag with that of its parent node. %(also described in ~\cite{serialTM}).
 When the post-order walk terminates at the root, the highest weight in the root node's hash table is the
 maximum weight of any independent set in the graph $G$. If the elements in the maximum
 weighted independent set are desired, extra bookkeeping is required during the computation,
@@ -394,10 +385,10 @@ i.e., the {\it forward neighbors}. Here we describe our approaches to improving 
 
 \subsection{Parallel elimination order generation}\label{sec:elimination_order}
 
-A close look at the profile of the subroutines needed for tree decomposition, shown at log scale in Figure \ref{fig:pkt.td}, clearly shows elimination ordering (using the METIS implementation of the multiple minimum degree heuristic) takes roughly 90\% of
+A close look at the profile of the subroutines needed for tree decomposition, shown at log scale in Figure \ref{fig:pkt.td}, shows elimination ordering (using the METIS implementation of the multiple minimum degree heuristic) takes roughly 90\% of
 total time. To address this, we integrated routines from the
-ParMETIS library~\cite{Karypis1996parallel}~\cite{Karypis1996parallel_k}~\cite{Karypis1997parmetis}, which
-provides a distributed fill-reducing ordering using nested dissection techniques. Although this provided
+ParMETIS library~\cite{Karypis1996parallel}~\cite{Karypis1997parmetis},%~\cite{Karypis1996parallel_k}
+ which provides a distributed fill-reducing ordering using nested dissection techniques. Although this provided
 a drastic reduction in runtime, the widths of the resulting tree decompositions (shown in Figure~\ref{fig:eo_width})
 were often unacceptably larger than their sequential analogues. We note that more generally, the heuristics
 employed to find the ordering were originally designed to minimize the number of edges added
@@ -408,7 +399,7 @@ Since the complexity of the dynamic programming
 is exponential in the treewidth, it is critical to devise a parallel ordering routine that limits this
 inflation. Based on ideas in a paper of Hendrickson et al.~\cite{HendricksonEO},
 we created a two-step procedure that first uses ParMETIS to partition the nodes into subsets which have known
-relative positions in the final order, then runs a second fill-reducing heuristic (we chose the AMD algorithm~\cite{Amestoy2004algorithm} on the subgraph induced by each subset  to refine the ordering. Note that the second step runs may be done in parallel as the subsets are disjoint. For computational results and conclusions, please see Section~\ref{sec:exp_elimination_order}.
+relative positions in the final order, then runs a second fill-reducing heuristic (we chose the AMD algorithm~\cite{Amestoy2004algorithm}) on the subgraph induced by each subset  to refine the ordering. Note that the second step's runs may be done in parallel as the subsets are disjoint. For computational results and conclusions, please see Section~\ref{sec:exp_elimination_order}.
 
 \begin{figure}[ht]
 \includegraphics[angle=0,width=3.1in]{figures/fig3_col.pdf}
@@ -419,16 +410,11 @@ relative positions in the final order, then runs a second fill-reducing heuristi
 \subsection{A parallel version of Gavril's algorithm}
 Once the elimination ordering time has been reduced, Gavril's algorithm ~\cite{Gavril1974} %(Algorithm~\ref{alg:gavril})
 dominates the tree decomposition computation. We parallelize this algorithm
-using a hybrid MPI + \emph{pthreads} approach as described in Algorithm~\ref{alg:pbag_gen}.
-% Begin Edit Dinesh
-% Add information on how we used MPI + pthread for parallel  tree decomposition.
-% CSGCSG rewording some below
-Vertices of the original graph are distributed evenly between MPI processes. 
-The vertices are then assigned to each MPI process and further divided based on 
-available pthreads on the system.
-% End Edit Dinesh
+using a hybrid MPI + \emph{pthreads} approach, with each thread executing the function in Algorithm~\ref{alg:pbag_gen}.
+%BDS
+Vertices of the original graph are distributed evenly between MPI processes, then further divided based on 
+available pthreads on the system (this sets the prefix, start, and end values).
 This distributes the work of finding forward neighbors and calculating tree edges across multiple compute nodes, with multiple bags being generated simultaneously on each node.
-%NEW TEXT
 In Gavril's original algorithm, when the bag for a vertex is created, it is compared with bags already in the decomposition to see
 if it can be created by just adding the vertex currently under consideration. Since these bags may not be locally known
 %Since the bag $X_{t[m]}$ in line ~\ref{gav:line:bag_merge} of Algorithm~\ref{alg:gavril}
@@ -436,7 +422,7 @@ is not locally known in a distributed environment, we postpone the bag unions to
 a sequential refinement stage, temporarily creating a tree with exactly $n$ nodes. The master process then operates on the full set of
 $n$ bags and $n-1$ edges, merging appropriate nodes to produce a tree equivalent to the sequential
 algorithm (for the same elimination ordering). In Algorithm~\ref{alg:par_td},
-the subroutine \textsc{ReplaceParent} is used to remove redundancy when a parent and child in the unrefined tree have identical bags by essentially removing the child from the tree, making its children now directly inherit from what was their grandparent.
+the subroutine \textsc{ReplaceParent} is used to remove redundancy when a parent and child in the unrefined tree have identical bags by essentially removing the child from the tree, making its children now directly inherit from what was their grandparent. Computational results of this parallelization can be found in Section ~\ref{sec:exp_td}
 
 %%%%%%%%%%%%%% Threaded Bag Processing  %%%%%%%%%%%%%%%%%%%
 \begin{algorithm}[ht!]
@@ -525,16 +511,12 @@ where $X^{\prime}_i \in X$ and $Adj^{\prime}_{i} \neq \emptyset$
 
 Having described our approach
 % CSGCSG - was novel ideas 
-for parallelizing the construction of tree decompositions, we now move on to our approach for applying distributed computing to the dynamic programming. Our approach uses task-oriented computing, where large operations are divided into smaller units called tasks. These tasks are then executed asynchronously across a distributed computer. MADNESS is a fast and accurate
-environment for computational chemistry, now used in many other
-fields including nuclear, atomic, and molecular
-physics. %[references] fill in if time
+for parallel construction of tree decompositions, we now move on to our approach to dynamic programming in a distributed memory environment. We use task-oriented computing, where large operations are divided into smaller units called tasks. These tasks are then executed asynchronously across a distributed computer. 
+%MADNESS is a fast and accurate environment for computational chemistry, now used in many other
+%fields including nuclear, atomic, and molecular
+%physics. %[references] fill in if time
 The MADNESS library and parallel runtime provide a versatile scientific computing environment that abstracts the intricacies of task-oriented computing, allowing application developers to focus on algorithm development and implementation.
-The commonly used tools in MADNESS are
-implemented on top of its parallel runtime, which provides an API
-for parallel data structures and functionality required for
-task-oriented computation. Key features include
-a) futures to manage dependencies and hide
+The commonly used tools (for computational chemistry and physics) in MADNESS are implemented on top of its parallel runtime, which provides an API for parallel data structures and functionality required for task-oriented computation. Key features include a) futures to manage dependencies and hide
 latency; b) global name spaces; c) non-process-centric
 computing; and d) dynamic load balancing and data redistribution~\cite{Thorntonintroducing}.
 We use MADNESS tasks to encapsulate the computation required at each
@@ -555,7 +537,7 @@ One can configure the MADNESS runtime to match processor layout in a compute nod
 in order to assign MADNESS tasks as desired.
 The MADNESS runtime also provides the ability to assign threads to each MADNESS tasks. 
 However, the user does not have any control over the work done by the threads 
-as they are controlled by the runtime.
+since they are controlled by the runtime.
 In order to limit the amount of communication amongst MADNESS tasks and to make tree nodes
 self-contained, we define a local data structure in every bag that takes advantage of the
 runtime's distributed container.
@@ -631,6 +613,12 @@ speedups for the dynamic programming phase of our optimization algorithm.
 We consider our parallelization of the dynamic programming to be the major
 computational contribution of our work.
 
+The sequential results used for comparison here were obtained using one core of a
+2.80Ghz Intel Xeon X5560 %quad-core processors (a total of 16 cores, though only one was used by the serial code),
+processor with 8MB of L1 cache and 24GB of memory. Sequential runtimes were limited to a maximum of
+24 hours. The parallel experiments were run on a 1024 node partition of Jaguar~\cite{jaguar}, a Cray XK6 with one 16-core AMD 6200 series processor and 32GB of memory per node.
+
+
 \subsection{Parallel elimination order generation}\label{sec:exp_elimination_order}
 To evaluate our algorithms for generating elimination orderings in parallel,
 we compare both the widths of the resulting decompositions and the required runtime.
@@ -642,15 +630,6 @@ Using AMD improves the width over ParMETIS alone for graphs with smaller $k$ val
 as the width increases, the advantage is lost.
 In Figure~\ref{fig:test_eo_width} we look at a second test suite of
 partial $k$ trees, where we compare both runtimes and width against the sequential heuristic MetMMD.
-
-%% CSG: Commented this out as it only weakens the paper IMO
-%%We believe it is premature to draw conclusions on whether or not using AMD  in
-%conjunction with ParMETIS is advantageous, and plan to continue exploring the strengths and
-%weaknesses of each algorithm.
-
-%BDS - PROBLEM - there's nothing about speedup in this section. We need to emphasize how much faster
-% the parallel algorithms are. Second PROBLEM is that we don't have a sequential algorithm's
-% widths in the plots for comparison.
 
 \begin{figure}[!ht]
 \includegraphics[angle=0,width=3.1in]{figures/newfig6_col.pdf}
@@ -677,13 +656,6 @@ decompositions to solve optimization problems was typically limited to graphs le
 with the techniques described in a recent paper ~\cite{cliquecover} restricting experiments even further --- to just several hundred nodes. We report computational results on partial $k$-trees with five hundred thousand, one
 million, and two million nodes with $k = 10,25$, and $50$. These represent graphs we believe are of an unprecedented scale - one which was previously deemed impractical.
 
-The sequential results used for comparison here were obtained using one core of a
-%on a system with nodes consisting of four
-2.80Ghz Intel Xeon X5560 %quad-core processors (a total of 16 cores, though only one was used by the serial code),
-processor with 8MB of L1 cache and 24GB of memory. Sequential runtimes were limited to a maximum of
-24 hours. The parallel experiments were run on a partition of Jaguar~\cite{jaguar}, a Cray XK6 with one 16-core AMD 6200 series processor and 32GB of memory per node.
-%For scaling experiments we use upto 16384 (1024x16) cores.
-
 \subsubsection{Parallel tree decomposition}\label{sec:exp_td}
 
 \begin{figure}[!ht]
@@ -701,7 +673,7 @@ In Algorithm~\ref{alg:par_td}, our current implementation collects all of the
 edges and bags created by each compute node (line~\ref{pbag_gen:line:gather})
 by writing one file per MPI task.  The rank-zero task then performs a concatenation
 prior to refinement. Unfortunately, this usage of the file system appears to prevent the scaling of our
-parallel tree decomposition construction beyond a modest number of MPI processes, as seen in Figure ~\ref{fig:TDtimes}.
+parallel tree decomposition construction beyond a modest number of MPI processes, as seen in Figure~\ref{fig:TDtimes}.
 We believe that replacing the file system interactions by a set of local memory stores followed by a global gather would resolve this problem, and is planned as a future improvement to the code.
 
 Despite the delays inherent from file system use, we achieve up to a $70\times$
@@ -734,8 +706,8 @@ pkt.2000000.50.60 & 44.00\\
 \end{figure*}
 
 Although the parallelization of the tree decomposition
-construction does not show compelling scaling results, our dynamic
-programming implementation shows exceptional, even superlinear scaling.
+construction may not show compelling scaling results, our dynamic
+programming implementation shows exceptional scaling.
 For example on a partial 25-tree with 500,000 nodes, the dynamic programming portion of the
 sequential algorithm required almost 22 hours (76630 seconds), and the
 speedup shown in Figure~\ref{fig:500k.25.seq.sp} is superlinear. For example 512 tasks with
