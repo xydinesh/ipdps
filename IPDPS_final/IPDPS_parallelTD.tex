@@ -596,11 +596,11 @@ worry about the physical location of each table.
 \If{$i$ is a leaf}
 \State \textbf{return} \textbf{MADTask}(\textsc{LeafTable}($i$))
 \EndIf
-\State Let $U[], V[]$ be arrays and $j = k = 0$
+\State Let $U[], V[]$ be arrays and $j = 0$
 \For{$n$ in $Adj_{i}$}
 \State $U[j]$ = \textbf{MADTask}(\textsc{ComputeTable}($n$))
-\State $V[k]$ = \textbf{MADTask}(\textsc{UpdateTable}($n$, $U[k]$))
-\State $j = j + 1$; $k = k + 1$
+\State $V[j]$ = \textbf{MADTask}(\textsc{UpdateTable}($i$, $U[j]$))
+\State $j = j + 1$
 \EndFor
 \State Wait for all \textbf{Futures} in $V$ to return
 \State \textbf{return} $X_{i}$
@@ -820,7 +820,7 @@ This work was performed while all three authors were at Oak Ridge National Labor
 \begin{singlespace}
 \small
 \bibliographystyle{plain}
-\bibliography{./par_td_wis}
+\bibliography{./new_refs}
 \end{singlespace}
 \end{document}
 
